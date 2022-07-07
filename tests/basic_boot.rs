@@ -9,30 +9,21 @@ use rust_os::println;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    println!("Hello from the OS{}", "!!!");
-
-    #[cfg(test)]
     test_main();
 
     loop {}
 }
 
-/// This function is called on panic.
-#[cfg(not(test))]
-#[panic_handler]
-fn panic(info: &PanicInfo) -> ! {
-    println!("{}", info);
-    loop {}
+fn test_runner(tests: &[&dyn Fn()]) {
+    unimplemented!();
 }
 
-/// Our panic handler in test mode
-#[cfg(test)]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     rust_os::test_panic_handler(info)
 }
 
 #[test_case]
-fn trivial_assertion() {
-    assert_eq!(1, 1);
+fn test_println() {
+    println!("test_println output");
 }
